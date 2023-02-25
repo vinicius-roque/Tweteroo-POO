@@ -9,7 +9,7 @@
     "start": "node index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Vinícius de Freitas Roque",
   "license": "ISC",
   "dependencies": {
     "chalk": "^5.0.1",
