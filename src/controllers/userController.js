@@ -1,4 +1,7 @@
-app.post('/sign-up', (req, res) => {
+import { usuarios } from "../../data.js";
+import { User } from "../models/userModel.js";
+
+export function createUser(req, res) {
   const { username, avatar } = req.body;
 
   if (!username || !avatar) {
@@ -6,7 +9,9 @@ app.post('/sign-up', (req, res) => {
     return;
   }
 
-  usuarios.push({ username, avatar });
+  const newUser = new User(username, avatar);
+
+  usuarios.push(newUser);
 
   res.status(200).send('OK deu tudo certo');
-});
+};
