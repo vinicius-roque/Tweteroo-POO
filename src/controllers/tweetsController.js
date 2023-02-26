@@ -1,4 +1,7 @@
-app.post('/tweets', (req, res) => {
+import { usuarios, tweets } from "../../data.js";
+import { Tweet } from "../models/tweetsModel.js";
+
+export function createTweet(req, res) {
   const { tweet, username } = req.body;
 
   if (!username || !tweet) {
@@ -7,20 +10,22 @@ app.post('/tweets', (req, res) => {
 
   const { avatar } = usuarios.find(user => user.username === username);
 
-  tweets.push({ username, tweet, avatar });
+  const newTweet = new Tweet(username, avatar, tweet);
+
+  tweets.push(newTweet);
 
   res.status(201).send('OK, seu tweet foi criado');
-});
+};
 
-app.get('/tweets/:username', (req, res) => {
+export function getTweetsOfUser(req, res) {
   const { username } = req.params;
 
   const tweetsDoUsuario = tweets.filter(t => t.username === username);
 
   res.status(200).send(tweetsDoUsuario);
-});
+};
 
-app.get('/tweets', (req, res) => {
+export function getTweets(req, res) {
   const { page } = req.query;
 
   if (page && page < 1) {
@@ -36,7 +41,7 @@ app.get('/tweets', (req, res) => {
   }
 
   res.status(200).send([...tweets].reverse().slice(start, end));
-});
+};
 
 function reverseTweets() {
   return [...tweets].reverse();
